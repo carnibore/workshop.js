@@ -11,9 +11,9 @@
 
 ## Performance
 
-There are a few best practices and tips for getting the best performance out of jQuery.
+Here are a few best practices and tips for getting the best performance out of jQuery.
 
-### Don't dip into the pool too many times
+### Reduce $() calls
 
 All too often, you will see jQuery like the following:
 
@@ -64,7 +64,7 @@ Say you wanted to select all of the list items. There are multiple ways to do so
     $('li', $('#list'))
     ...
 
-Which is fastest? `$('li')`
+That's a lot of options, but which is fastest? `$('li')`
 
 However, if there are other `li` elements on the page you don't want to select, you'll need to be more specific. In that case, `$('.item')` will be ideal.
 
@@ -75,15 +75,14 @@ Say you want the paragraph. You could try:
     $('.some-para')
     ...
 
-Which is fastest? `$('#some-para')`
+But which is fastest? `$('#some-para')`
 
 #### Rules of thumb:
 
 * For a unique element, using an id is always fastest - `$('#some-id')`
-* For 2 or more elements, if you don't need to be specific, use the tag name - `$('div')
-* If you need to get a specific set of elements, put a class on them - `$('.some-class')
-* Avoid attribute selectors, such as `$('input[type=text]')`
-* Also avoid pseudo-selectors such as `$(':hidden')`
+* For 2 or more elements, if you don't need to be specific, use the tag name - `$('div')`
+* If you need to get a specific set of elements, put a class on them - `$('.some-class')`
+* Avoid attribute and pseudo selectors - `$('input[type=text]')` and `$(':hidden')`
 
 #### Further Reading / Resources
 
