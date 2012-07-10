@@ -69,7 +69,7 @@ how to create?
         console.log( $(this).text() );
     });
 
-    Output:
+Output:
 
     apples
     oranges
@@ -86,7 +86,7 @@ how to create?
         console.log( 'Item at index ' + index + ' has a value of ' + value);
     });
 
-    Output:
+Output:
 
     Item at index 1 has a value of apples
     Item at index 2 has a value of oranges
@@ -98,11 +98,11 @@ how to create?
 
 > Store arbitrary data associated with the matched elements.
 
-#### Get
+Get
 
     $('#el').data('foo');
 
-#### Set
+Set
 
     $('#el).data('foo', 'bar');
 
@@ -110,11 +110,11 @@ how to create?
 
 > Store arbitrary data associated with the specified element. Returns the value that was set.
 
-#### Get
+Get
 
     $.data(document.body, 'foo');
 
-#### Set
+Set
 
     $.data(document.body, 'foo', 'bar');
 
