@@ -9,7 +9,7 @@
 * Plugins
 * Utility functions
 
-## Performance
+## Performance Optimization
 
 Here are a few best practices and tips for getting the best performance out of jQuery.
 
@@ -104,6 +104,8 @@ More on this later.
 
 ## AJAX
 
+What is AJAX?
+
 $.ajax
 success and failure callbacks
 
@@ -112,6 +114,8 @@ success and failure callbacks
 $.get
 $.post
 $.getJSON
+$.load
+$.fn.load
 
 ## Event delegation
 
@@ -128,6 +132,7 @@ $('selector').on('click', 'selector', fn)
 $.animate
 callback
 queue?
+$.fn.stop
 
 ## Plugins
 
