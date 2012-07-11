@@ -2,7 +2,7 @@
 
 ## Topics
 
-* Performance
+* Performance Optimization
 * AJAX
 * Event delegation
 * Animations
@@ -97,25 +97,121 @@ A few jsPerf examples out in the wild:
 
 Google "jsperf jquery selector speed" for more.
 
-
 ### Event delegation
 
 More on this later.
 
 ## AJAX
 
-What is AJAX?
+### What is AJAX?
 
-$.ajax
-success and failure callbacks
+AJAX stands for **A**synchronous **J**avaScript **a**nd **X**ML. However, using AJAX doesn't necessarily mean using XML. It's the *asynchronous* part that's significant. To understand why, let's step back a little bit and look at how websites and web applications work without AJAX. 
+
+#### Without AJAX
+
+When, for example, you click a link or submit a form, the browser makes a request to the server *synchronously*. What that means, in practical terms, is that the whole web page is refreshed with new content from the server. Say you have a contact form and the server is set to send a notification email when the form is submitted. Without AJAX, the user has to wait until the email is sent and the page refreshes before they see a response from the server.
+
+#### With AJAX
+
+Using AJAX, when you click a link or submit a form, JavaScript sends a request to the server *asynchronously*, and receives (usually only pertinent) data back. When submitting the aforementioned form, the form data will be sent through AJAX and the server will handle sending the email in the background. The user can do other things on the page while the server is handling the request. When it's finished it can send back a response that AJAX will catch and perhaps let the user know their message was sent successfully or not.
+
+Since the whole page doesn't refresh, actions such as submitting a form take less time and less bandwidth. The server only sends back a response with, perhaps, some requested data instead of the whole HTML page that the browser has to re-parse.
+
+AJAX is especially useful in web applications, where you can incorporate a myriad of interactions with it. Gmail, for example, is one of the first and most notable web apps that makes heavy use of AJAX. 
+
+Most websites use AJAX sparingly, for, say submitting a form or something similar. Navigating between pages is done traditionally with a round trip to the server. However, there has been a trend lately towards using AJAX more heavily, handling a lot of the work in the browser that used to be left to the server. This is most common with web applications, but some websites do this as well.
+
+AJAX can be used with servers other than your own. You can utilize a service's API to get data and use it on your own site. Below, we'll see an example of that.
+
+### Using AJAX with vanilla JavaScript
+
+AJAX is provided by the browser through the XMLHttpRequest object. However, due to inconsistencies between browsers, it can be quite a pain to use. For now, let's focus on jQuery's AJAX methods.
+
+### Using AJAX with jQuery
+
+jQuery comes to the rescue again, ironing out browser differences and giving us a nice, concise API for using AJAX.
+
+The primary method for using is `$.ajax`. The `$.ajax` methods takes an configuration object that can take numerous options. The following are some of the most common ones to use:
+
+`url` : The url (usually a server endpoint) where you wish to send the request.
+
+`type` : The type of request, usually 'POST' or 'GET.' Others, such as 'PUT' or 'DELETE,' can be used, but they are not supported by all browsers.
+
+`dataType` : The type of data you expect back from the server, such as:
+
+* xml
+* html
+* script
+* json
+* jsonp
+
+If this isn't specified, jQuery will do its best to guess what the type is when the data is returned.
+
+`data` : Data sent to the server. Usually an object of key/value pairs.
+
+`success` : A callback run if the request was successful.
+
+`failure` : A callback run if the request failed.
+
+#### Examples
+
+Submit a form
+
+	// Cache the form, since it's used multiple times below
+	var $myForm = $('#my-form');
+	
+	$myForm.submit(function (e) {
+		// prevent the form from being submitted synchronously
+		e.preventDefault();
+		
+		// submit the form through ajax
+		$.ajax({
+			url : '/handle-form.php',
+			type : 'post',
+			data :  $myForm.serialize(),
+			success : function (data, textStatus, jqXHR) {
+				 $myForm.slideUp('fast', function () {
+					$('body').append('Your message was sent successfully');
+				});
+			},
+			failure : function () {
+				 $myForm.before('Your message could not be sent. Please try again');
+			}
+		});
+		
+	});
+
+A number of sites provide APIs so you can access their data and use it on your site. Some examples of APIs I've used with AJAX are YouTube, Twitter, and Rotten Tomatoes. 
+
+Often, to use an API, you need to register and obtain an API key. You also need to respect certain usage quotas. Don't make thousands of requests in a minute. 
+
+Here is an example using the YouTube API to get a list of the most popular videos:
+
+	$.ajax({
+	    dataType : 'jsonp',
+	    url : 'http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?v=2&alt=json',
+	    success : function (data) {
+	        // This is an array of the videos
+	        var videos = data.feed.entry;
+	
+	        // Loop through the videos and log their title
+	        $.each(videos, function () {
+	            console.log( this.title.$t );
+	        });
+	    }
+	});
 
 ### Convenience methods
 
-$.get
-$.post
-$.getJSON
-$.load
-$.fn.load
+jQuery provides a number of convenience methods for common AJAX actions. Internally, they all call `$.ajax` with some set configurations. I recommend checking out the documentation for them on the [jQuery site](api.jquery.com).
+
+Here are a few of them:
+
+* `$.get`
+* `$.post`
+* `$.getJSON`
+* `$.load`
+* `$.fn.load`
 
 ## Event delegation
 
